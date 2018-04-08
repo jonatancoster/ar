@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour {
 
-	Vector3 distance = new Vector3(0f, 0.01f, 0f);
+	Vector3 distance = new Vector3(0f, 0.1f, 0f);
 
 	// Use this for initialization
 	void Start () {

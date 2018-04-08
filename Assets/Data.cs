@@ -36,6 +36,7 @@ public class Data : MonoBehaviour {
 	}
 
 	public void savePosition() {
-		System.IO.File.AppendAllText (filePath + "/" + filename, cube.transform.localPosition + "\n", System.Text.Encoding.UTF8);
+		float distance = (cube.transform.localPosition.y - 0.25f);
+		System.IO.File.AppendAllText (filePath + "/" + filename, distance.ToString() + "\t" + cube.transform.localPosition.y.ToString() + "\t" + cube.transform.position.y.ToString() + "\n", System.Text.Encoding.UTF8);
 	}
 }
