@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cube : MonoBehaviour {
 
@@ -23,4 +24,5 @@ public class Cube : MonoBehaviour {
 	public void MoveUp() {
 		this.gameObject.transform.Translate (distance, Space.Self);
 	}
+
 }
