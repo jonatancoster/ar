@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Data : MonoBehaviour {
 
 	public GameObject cube;
-	public GameObject ground;
 	public GameObject cubeGraphics;
 	public GameObject sphereGraphics;
 	public Text textfield;
@@ -17,6 +16,7 @@ public class Data : MonoBehaviour {
 	string filePath;
 	string filename;
 	string graphics;
+	float startTime;
 	//string data;
 
 	// Use this for initialization
@@ -54,9 +54,11 @@ public class Data : MonoBehaviour {
 			graphics = "error";
 		}
 
+		startTime = Time.time;
+
 		//Create a file named after the user and the graphics type and add the user's name to the first line.
 		filename = namefield.text + "_" + graphics + ".txt";
-		System.IO.File.AppendAllText (filePath + "/" + "raw_" + filename, namefield.text + " " + graphics + "\n", System.Text.Encoding.UTF8);
+		System.IO.File.AppendAllText (filePath + "/" + "raw_" + filename, namefield.text + " " + graphics + " " + startTime.ToString() + "\n", System.Text.Encoding.UTF8);
 	}
 
 
@@ -81,8 +83,10 @@ public class Data : MonoBehaviour {
 		//Distance from ground to cube. Cube scale = 0.5.
 		float distance = (cube.transform.localPosition.y - 0.25f);
 
+		float playTime = Time.time - startTime;
+
 		//Write the distance from ground to cube, cube local y position and cube global y position.
-		System.IO.File.AppendAllText (filePath + "/" + filename, distance.ToString() + "\t" + cube.transform.localPosition.y.ToString() + "\t" + cube.transform.position.y.ToString() + "\t" + Time.time.ToString() + "\n", System.Text.Encoding.UTF8);
+		System.IO.File.AppendAllText (filePath + "/" + filename, distance.ToString() + "\t" + cube.transform.localPosition.y.ToString() + "\t" + cube.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
 
 		Application.Quit ();
 	}

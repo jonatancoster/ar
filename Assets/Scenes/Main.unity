@@ -2915,7 +2915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1793773199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3174,7 +3174,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 187586724}
-  ground: {fileID: 2125459061}
   cubeGraphics: {fileID: 1943191713}
   sphereGraphics: {fileID: 2082722892}
   textfield: {fileID: 1323481502}
