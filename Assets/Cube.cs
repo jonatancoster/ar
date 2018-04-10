@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Cube : MonoBehaviour {
 
+	public GameObject cubeGraphics;
+	public GameObject sphereGraphics;
+
 	Vector3 distance = new Vector3(0f, 0.1f, 0f);
 
 	// Use this for initialization
