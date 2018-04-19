@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Data : MonoBehaviour {
 
-	public GameObject cube;
-	public GameObject cubeGraphics;
-	public GameObject sphereGraphics;
-	public Text textfield;
-	public InputField namefield;
-	public Toggle cubeToggle;
-	public Toggle sphereToggle;
+	public GameObject virtualObject;
+	public InputField userName;
 
 	string filePath;
-	string filename;
-	string graphics;
+	string resultsFile;
+	string logFile;
 	float startTime;
-	//string data;
 
 	// Use this for initialization
 	void Start () {
-		filePath = Application.persistentDataPath;
-		//filename = "ar.txt";
-		//data = "test";
+		filePath = Application.persistentDataPath + "/";
+		resultsFile = "results.txt";
+		logFile = "log.txt";
+
+		//Save the start time.
+		startTime = Time.time;
+
+		//Start recording virtual object position to the log file.
+		InvokeRepeating ("savePosition", 0f, 1.0f);
 	}
 	
 	// Update is called once per frame
@@ -33,61 +34,56 @@ public class Data : MonoBehaviour {
 
 
 
-	public void save() {
-		//System.IO.File.WriteAllText (filePath + "/" + filename, data);
-		//System.IO.File.AppendAllText (filePath + "/" + filename, data);
+	public void saveObjectType(string type) {
+		Debug.Log (type);
 	}
 
 
 
+	//Used when the user has entered a name.
 	public void saveName() {
-		//Save the type of chosen graphics. Use the chosen graphics type.
-		if(cubeToggle.isOn == true && sphereToggle.isOn == false) {
-			graphics = "cube";
-			cubeGraphics.SetActive (true);
-			sphereGraphics.SetActive (false);
-		} else if(sphereToggle.isOn == true && cubeToggle.isOn == false) {
-			graphics = "sphere";
-			sphereGraphics.SetActive (true);
-			cubeGraphics.SetActive (false);
-		} else {
-			graphics = "error";
-		}
+		//Append a line with the username to the results file.
+		System.IO.File.AppendAllText (filePath + resultsFile, userName.text + "\n", System.Text.Encoding.UTF8);
 
-		startTime = Time.time;
+		//Append a line with the username to the logfile.
+		System.IO.File.AppendAllText (filePath + logFile, userName.text + "\n", System.Text.Encoding.UTF8);
 
-		//Create a file named after the user and the graphics type and add the user's name to the first line.
-		filename = namefield.text + "_" + graphics + ".txt";
-		System.IO.File.AppendAllText (filePath + "/" + "raw_" + filename, namefield.text + " " + graphics + " " + startTime.ToString() + "\n", System.Text.Encoding.UTF8);
+		//Save the username for use in other scenes.
+		PlayerPrefs.SetString("username", userName.text);
+
+		//Load the menu.
+		SceneManager.LoadScene ("Menu");
 	}
 
 
 
+	//Used to regularly save the position of the object and the time to the log file.
 	public void savePosition() {
-		//Distance from ground to cube. Cube scale = 0.5.
-		float distance = (cube.transform.localPosition.y - 0.25f);
-
-		//Write the distance from ground to cube, cube local y position and cube global y position.
-		System.IO.File.AppendAllText (filePath + "/" + "raw_" + filename, distance.ToString() + "\t" + cube.transform.localPosition.y.ToString() + "\t" + cube.transform.position.y.ToString() + "\t" + Time.time.ToString() + "\n", System.Text.Encoding.UTF8);
-	}
-
-
-
-	public void record() {
-		InvokeRepeating ("savePosition", 0f, 1.0f);
-	}
-
-
-
-	public void userOK() {
-		//Distance from ground to cube. Cube scale = 0.5.
-		float distance = (cube.transform.localPosition.y - 0.25f);
+		//Distance from ground to virtual object. Object scale = 0.5.
+		float distance = (virtualObject.transform.localPosition.y - 0.25f);
 
 		float playTime = Time.time - startTime;
 
-		//Write the distance from ground to cube, cube local y position and cube global y position.
-		System.IO.File.AppendAllText (filePath + "/" + filename, distance.ToString() + "\t" + cube.transform.localPosition.y.ToString() + "\t" + cube.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
+		//Write the distance from ground to object, object global y position and time.
+		System.IO.File.AppendAllText (filePath + logFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
+	}
 
-		Application.Quit ();
+
+
+	//Used to save the position of the object and the time to the results file when the user press the ok button.
+	public void userOK() {
+		//Distance from ground to virtual object. Object scale = 0.5.
+		float distance = (virtualObject.transform.localPosition.y - 0.25f);
+
+		float playTime = Time.time - startTime;
+
+		//Write the distance from ground to object, object global y position and time.
+		System.IO.File.AppendAllText (filePath + resultsFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
+
+		//Quit recording.
+		CancelInvoke();
+
+		//Load the menu.
+		SceneManager.LoadScene ("Menu");
 	}
 }
