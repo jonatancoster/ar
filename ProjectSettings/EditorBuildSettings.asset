@@ -17,3 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sphere_Shadow.unity
     guid: efc1202555c0cb740af6e79ab1445e7c
+  - enabled: 1
+    path: Assets/Scenes/Cube.unity
+    guid: 418657f64a06ce64eafb30dc07e3522c
+  - enabled: 1
+    path: Assets/Scenes/Sphere.unity
+    guid: 5fdc803bfa6734a4b815c2de5265976a

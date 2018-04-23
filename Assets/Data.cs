@@ -12,6 +12,7 @@ public class Data : MonoBehaviour {
 	string filePath;
 	string resultsFile;
 	string logFile;
+	string sceneName;
 	float startTime;
 
 	// Use this for initialization
@@ -19,12 +20,13 @@ public class Data : MonoBehaviour {
 		filePath = Application.persistentDataPath + "/";
 		resultsFile = "results.txt";
 		logFile = "log.txt";
+		sceneName = SceneManager.GetActiveScene ().name;
 
 		//Save the start time.
 		startTime = Time.time;
 
 		//Start recording virtual object position to the log file.
-		InvokeRepeating ("savePosition", 0f, 1.0f);
+		InvokeRepeating ("savePosition", 0f, 0.1f);
 	}
 	
 	// Update is called once per frame
@@ -65,7 +67,7 @@ public class Data : MonoBehaviour {
 		float playTime = Time.time - startTime;
 
 		//Write the distance from ground to object, object global y position and time.
-		System.IO.File.AppendAllText (filePath + logFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
+		System.IO.File.AppendAllText (filePath + logFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\t" + sceneName + "\n", System.Text.Encoding.UTF8);
 	}
 
 
@@ -78,7 +80,7 @@ public class Data : MonoBehaviour {
 		float playTime = Time.time - startTime;
 
 		//Write the distance from ground to object, object global y position and time.
-		System.IO.File.AppendAllText (filePath + resultsFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\n", System.Text.Encoding.UTF8);
+		System.IO.File.AppendAllText (filePath + resultsFile, distance.ToString() + "\t" + virtualObject.transform.position.y.ToString() + "\t" + playTime.ToString() + "\t" + sceneName + "\n", System.Text.Encoding.UTF8);
 
 		//Quit recording.
 		CancelInvoke();
